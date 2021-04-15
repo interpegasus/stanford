@@ -36,7 +36,7 @@ end
         
     
 def partition(nums, left, right)
-    pivot_value = nums[left] # initialise pivot as the first element
+    pivot_value = nums[left] # initialise pivot as the element at the left
     left_mark = left + 1
     [*(left+1)..right].each do |right_mark|
         if nums[right_mark] < pivot_value
@@ -45,7 +45,7 @@ def partition(nums, left, right)
         end
     end
     (nums[left_mark-1],nums[left]) = [nums[left],nums[left_mark-1]]
-    left_mark - 1       # partition point := where pivot finally occupies
+    left_mark - 1       # partition point, where the pivot is finally located.
 end
     
     

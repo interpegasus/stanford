@@ -29,7 +29,7 @@ def partition(nums, left, right)
         end
     end
     (nums[left_mark - 1],nums[left]) = [nums[left],nums[left_mark - 1]]
-    left_mark - 1 # partition point -> where pivot finally located
+    left_mark - 1 # where pivot is finally located
 end
     
     
