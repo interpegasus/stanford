@@ -1,3 +1,4 @@
+# Stanford: Algorithms: Design and Analysis, Part 1 A2
 def file_to_array(file_path = "/Users/arturo/Downloads/Stanford/A2/QuickSort.txt")
     output = []
     File.readlines(file_path).each do |i|

@@ -1,3 +1,5 @@
+# Stanford: Algorithms: Design and Analysis, Part 1 A3
+
 def file_to_adjacency_list(file_path = "/Users/arturo/Downloads/Stanford/A3/kargerMinCut.txt")    
     graph = {}
     File.readlines(file_path).each do |line|
@@ -13,7 +15,7 @@ def karger_contract(graph)
         vertex_one = graph.keys.sample
         vertex_two = graph[vertex_one].sample		
         graph[vertex_one].concat(graph[vertex_two])
-        # Repoint edges in vertex_two to vertex_one
+        # Repoint edges previously on vertex_two to vertex_one
         graph[vertex_two].each do |vertex| 
             graph[vertex].map!{ |i| i == vertex_two ? vertex_one : i } 
         end

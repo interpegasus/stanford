@@ -1,3 +1,4 @@
+# Stanford: Algorithms: Design and Analysis, Part 1 A1
 def count_inversions
     nums = file_to_array
     output = merge_sort_inv(nums)
