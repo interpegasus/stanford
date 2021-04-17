@@ -1,14 +1,23 @@
 class Node
     attr_reader :value
     attr_reader :adjacent_nodes
-    attr_reader :path
+    attr_reader :path_from_start
     def initialize(value)
         @value = value
         @adjacent_nodes = []
+        @path_from_start = Set.new
     end
 
     def add_edge(node)
         @adjacent_nodes.push(node)
+    end
+
+    def add_to_path(value)
+        @path_from_start.push(value)
+    end
+
+    def concat_to_path(value_array)
+        @path_from_start.concat(value_array)
     end
 
     def to_s
@@ -58,7 +67,7 @@ def generate_random_graph
     return g
 end
 
-def bfs(graph, start_node_value, search_value)
+def bfs(graph, start_node_value=2, search_value=9)
     if graph.nodes[start_node_value].nil? || graph.nodes[search_value].nil?
         return nil
     end
@@ -77,4 +86,34 @@ def bfs(graph, start_node_value, search_value)
             end
         end        
     end
+end
+
+def bfs_shortest_path(graph, start=2, search=9)
+    if graph.nodes[start].nil? || graph.nodes[search].nil?
+        return nil
+    end
+    visited = Set.new
+    search_queue = Queue.new
+    search_queue.enq(start)
+    while !search_queue.empty? do      
+        current_node_key = search_queue.deq  
+        current_node = graph.nodes[current_node_key]         
+        visited.add(current_node_key)
+        current_node.add_to_path(current_node.value)
+        if current_node.value == search
+            return current_node.path_from_start
+        end
+        current_node.adjacent_nodes.each do |node|
+            if !visited.include?(node.value)                   
+                search_queue.enq(node.value)
+                node.concat_to_path(current_node.path_from_start)                
+            end
+        end        
+    end
+end
+
+def test_graph
+    graph = generate_random_graph    
+    graph.to_s
+    bfs_shortest_path(graph, start_node_value=8, search_value=9)
 end
