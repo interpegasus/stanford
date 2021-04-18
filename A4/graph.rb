@@ -5,7 +5,7 @@ class Node
     def initialize(value)
         @value = value
         @adjacent_nodes = []
-        @path_from_start = Set.new
+        @path_from_start = []
     end
 
     def add_edge(node)
@@ -93,27 +93,35 @@ def bfs_shortest_path(graph, start=2, search=9)
         return nil
     end
     visited = Set.new
+    visited.add(start)
     search_queue = Queue.new
     search_queue.enq(start)
     while !search_queue.empty? do      
         current_node_key = search_queue.deq  
-        current_node = graph.nodes[current_node_key]         
-        visited.add(current_node_key)
+        current_node = graph.nodes[current_node_key]                 
         current_node.add_to_path(current_node.value)
         if current_node.value == search
             return current_node.path_from_start
         end
-        current_node.adjacent_nodes.each do |node|
-            if !visited.include?(node.value)                   
-                search_queue.enq(node.value)
-                node.concat_to_path(current_node.path_from_start)                
+        adjacent_nodes_array = current_node.adjacent_nodes.map{|x| x.value}
+        adjacent_nodes_array.each do |value|
+            if !visited.include?(value)                   
+                search_queue.enq(value)
+                visited.add(value)
+                graph.nodes[value].concat_to_path(current_node.path_from_start)                
             end
         end        
     end
 end
 
+
 def test_graph
     graph = generate_random_graph    
     graph.to_s
-    bfs_shortest_path(graph, start_node_value=8, search_value=9)
+    bfs_shortest_path(graph,2,9)
+end
+
+
+
+def dfs(graph, start)
 end
