@@ -124,4 +124,29 @@ end
 
 
 def dfs(graph, start)
+    explored = [start]
+    graph.nodes[start].adjacent_nodes.each do |node|
+        if !explored.include?(node.value)
+            explored.push(node.value)
+            dfs(graph, node.value)
+        end
+    end
+end
+
+def dfs_iterative(graph, start, search=4)
+    stack = Stack.new    
+    discovered = []
+    stack.push(start)
+    while !stack.is_empty? do
+        node = graph.nodes[stack.pop]
+        if !discovered.include? node.value
+            discovered.push(node.value)
+            if node.value == search
+                # Return Found
+            end
+            node.adjacent_nodes.each do |adjacent_node|
+                stack.push(adjacent_node.value)
+            end
+        end
+    end
 end
