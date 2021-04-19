@@ -12,6 +12,10 @@ class Node
         @adjacent_nodes.push(node)
     end
 
+    def reset_path
+        @path_from_start = []
+    end    
+
     def add_to_path(value)
         @path_from_start.push(value)
     end
@@ -59,7 +63,7 @@ def generate_random_graph
     [*1..10].shuffle.each do |node_value|
         g.add_node(Node.new(node_value))
     end
-    40.times do 
+    12.times do 
         key1 = g.nodes.keys.sample
         key2 = g.nodes.keys.sample
         g.add_edge(g.nodes[key1],g.nodes[key2])
@@ -98,7 +102,7 @@ def bfs_shortest_path(graph, start=2, search=9)
     search_queue.enq(start)
     while !search_queue.empty? do      
         current_node_key = search_queue.deq  
-        current_node = graph.nodes[current_node_key]                 
+        current_node = graph.nodes[current_node_key]                     
         current_node.add_to_path(current_node.value)
         if current_node.value == search
             return current_node.path_from_start
@@ -118,6 +122,9 @@ end
 def test_graph
     graph = generate_random_graph    
     graph.to_s
+    graph.nodes.keys.each do |key|
+        graph.nodes[key].reset_path
+    end
     bfs_shortest_path(graph,2,9)
 end
 
@@ -128,6 +135,7 @@ def dfs(graph, start)
     graph.nodes[start].adjacent_nodes.each do |node|
         if !explored.include?(node.value)
             explored.push(node.value)
+            puts "#{node.value}"
             dfs(graph, node.value)
         end
     end
@@ -146,6 +154,23 @@ def dfs_iterative(graph, start, search=4)
             end
             node.adjacent_nodes.each do |adjacent_node|
                 stack.push(adjacent_node.value)
+            end
+        end
+    end
+end
+
+
+def heaps_permutations(array, n = array.size-1)
+    if  n == 0
+        p array
+        return array
+    else
+        for i in 0..n do
+            heaps_permutations(array, n-1)
+            if (n-1) % 2 == 1
+                array[1], array[n] = array[n], array[1]
+            else
+                array[i], array[n] = array[n], array[i]
             end
         end
     end
